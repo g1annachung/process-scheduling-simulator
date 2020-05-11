@@ -437,7 +437,7 @@ int main(int argc, char * const argv[])
 	int opt;
 	char *scriptfile;
 
-	while ((opt = getopt(argc, argv, "qfsSrpih")) != -1) {
+	while ((opt = getopt(argc, argv, "qfsSrpich")) != -1) {
 		switch (opt) {
 		case 'q':
 			quiet = true;
