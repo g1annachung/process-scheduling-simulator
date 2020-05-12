@@ -84,12 +84,12 @@ To better understand them, you will implement SJF, SRTF, round-robin, priority, 
 	- Some testcases are hidden and only show the final decision (i.e., pass/fail);
 
 - Code: ***pa2.c*** (370 pts)
-	- SJF scheduler: 20
-	- SRTF scheduler: 50
-	- RR scheduler:  50
-	- Priority scheduler: 50
-	- Priority scheduler + PCP: 70
-	- Priority scheduler + PIP: 130
+	- SJF scheduler: 20pts (tested using `multi`)
+	- SRTF scheduler: 50pts (`multi`);
+	- RR scheduler:  50pts (`multi` and `prio`)
+	- Priority scheduler: 50pts (`prio`)
+	- Priority scheduler + PCP: 70pts (`resources-basic`)
+	- Priority scheduler + PIP: 130pts (`resources-adv1` and `resources-adv2`)
 
 - Document: One PDF document (30 pts) including;
 	- Description how **each** scheduling policy is implemented
