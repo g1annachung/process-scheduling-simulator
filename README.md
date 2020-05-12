@@ -1,6 +1,6 @@
 ## Project #2: Simulating Processor Schedulers
 
-### *** Due on 24:00, May 22 (Friday) ***
+### *** Due on 24:00, May 24 (Friday) ***
 
 
 ### Goal
@@ -101,7 +101,7 @@ To better understand them, you will implement SJF, SRTF, round-robin, priority, 
 - Git repository (10 pts)
 	- Register http URL and with a deploy token and password.
 	- Start the repository by cloning this repository.
-	- Make sure the token is valid through May 27 (due + 4 slip days + 1 day)
+	- Make sure the token is valid through May 29 (due + 4 slip days + 1 day)
 
 - *WILL NOT ANSWER THE QUESTIONS ABOUT THOSE ALREADY SPECIFIED ON THE HANDOUT.*
 - *QUESTIONS OVER EMAIL WILL BE IGNORED UNLESS IT CONCERNS YOUR PRIVACY.*
