@@ -276,7 +276,6 @@ struct scheduler pcp_scheduler = {
 	 * Implement your own acqure/release function too to make priority
 	 * scheduler correct.
 	 */
-	/* It goes without saying to implement your own pcp_schedule() */
 };
 
 
