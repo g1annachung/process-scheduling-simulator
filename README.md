@@ -1,6 +1,6 @@
 ## Project #2: Simulating Processor Schedulers
 
-### *** Due on 24:00, May 24 (Friday) ***
+### *** Due on 24:00, May 24 (Sunday) ***
 
 
 ### Goal
