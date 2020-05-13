@@ -46,13 +46,17 @@ To better understand them, you will implement SJF, SRTF, round-robin, priority, 
 
 - The framework has the ready queue `struct list_head readyqueue` which is supposed to keep the list of processes that are ready to run. It is defined as a list head, which is borrowed from the Linux kernel. You can easily find examples of using the list head from Internet (see tips below). Note that the current process is *NOT* supposed to be in the ready queue.
 
-- The system has a number of system resources (32 in this PA) that can be assigned to processes exclusively. `struct resource` defines the system resources in `resource.h`. The process may ask the framework to acquire a resoruce and release it after use. Such a resource use is specified in the process description file using `acquire` property. For example, `acquire 1 4 2` means the process will require resource #1 at time tick 4 for 2 ticks. Have a look at `testcases/resources` for an example.
+- The system has a number of system resources (32 in this PA) that can be assigned to processes *exclusively*. `struct resource` defines the system resources in `resource.h`. The process may ask the framework to acquire a resoruce and release it after use. Such a resource use is specified in the process description file using `acquire` property. For example, `acquire 1 4 2` means the process will require resource #1 at time tick 4 for 2 ticks. Have a look at `testcases/resources` for an example.
 
-- When the framework gets the resource acquisition request, it calls `acquire()` function of the scheduler. Similarly, the framework calls `release()` function when the process releases a resource. You may find default FCFS acquire/release functions in `pa2.c` and the FIFO scheduler uses them to allocate resources. You may define your own acquire/release functions and associate them to your scheduler implementation to make a correct scheduling decision.
+- When the framework gets the resource acquisition request, it calls `acquire()` function of the scheduler. Similarly, the framework calls `release()` function when the process releases a resource. You may find default FCFS acquire/release functions in `pa2.c` and the FIFO scheduler uses them to allocate resources.
+
+- Non-priority-based scheduling policies should handle resource acquision requests in a first-come-first-served way. On the other hand, priority-based scheduling policies should dispatch the releasing resource to the process with the highest priority. To this end, you may define your own acquire/release functions and associate them to your scheduler implementation to make a correct scheduling decision.
 
 - The framework is waiting for your implementation of shortest-job first (SJF) scheduler, shortest-remaining time first (SRTF) scheduler, round-robin scheduler, priority-based scheduler, priority-based scheduler with priority ceiling protocol (PCP), and priority-based scheduler with priority inheritance protocol (PIP). You can start the program with a scheduler option and the framework will select the corresponding scheduler automatically. Check the options by running the program (`sched`) without any option.
 
 - When a process is forked by the framework, the `forked()` callback function will be invoked. Similarly, when the process is done, `exiting()` callback function is called.
+
+- The priority-based schedulers should handle processes with the same priority in the round-robin way; If two or more processes are with the same priority, they should be swiched on each tick.
 
 - To boost the priority of processes in PCP, use `MAX_PRIO` defined in `process.h`.
 
@@ -60,8 +64,6 @@ To better understand them, you will implement SJF, SRTF, round-robin, priority, 
 	- More than one processes with different priority values can wait for the releasing resource. Suppose one process is holding one resource type, and other process is to acquire the same resource type. And then, another process with higher (or lower) priority is to acquire the resource type again, and then ...
 	- Many processes with different priority values are waiting for different resources held by a process.
 	You will get the full points for PIP *if and only if* these cases are all handled properly. Hint: calculate the *current* priority of the releasing process by checking resource acquitision status.
-
-- The priority-based schedulers should handle processes with the same priority in the round-robin way; If two or more processes are with the same priority, they should be swiched on each tick.
 
 
 ### Tips and Restriction
