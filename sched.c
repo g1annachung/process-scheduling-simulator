@@ -81,8 +81,8 @@ extern struct scheduler sjf_scheduler;
 extern struct scheduler srtf_scheduler;
 extern struct scheduler rr_scheduler;
 extern struct scheduler prio_scheduler;
-extern struct scheduler pip_scheduler;
 extern struct scheduler pcp_scheduler;
+extern struct scheduler pip_scheduler;
 
 static struct scheduler *sched = &fifo_scheduler;
 
@@ -426,8 +426,8 @@ static void __print_usage(char * const name)
 	printf("  -S: Use SRTF scheduler\n");
 	printf("  -r: Use Round-robin scheduler\n");
 	printf("  -p: Use Priority scheduler\n");
-	printf("  -i: Use Priority with PIP scheduler\n");
 	printf("  -c: Use Priority with PCP scheduler\n");
+	printf("  -i: Use Priority with PIP scheduler\n");
 	printf("\n");
 }
 

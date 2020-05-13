@@ -288,5 +288,3 @@ struct scheduler pip_scheduler = {
 	 * Ditto
 	 */
 };
-
-
