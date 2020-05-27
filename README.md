@@ -1,7 +1,4 @@
-## Project #2: Simulating Processor Schedulers
-
-### *** Due on 24:00, May 24 (Sunday) ***
-
+## Simulating Processor Schedulers
 
 ### Goal
 
@@ -79,31 +76,12 @@ To better understand them, you will implement SJF, SRTF, round-robin, priority, 
 
 
 
-### Submission / Grading
+### Testing
 
-- Use [PAsubmit](https://sslab.ajou.ac.kr/pasubmit) for submission
-	- 400 pts + 10 pts 
-	- Some testcases are hidden and only show the final decision (i.e., pass/fail);
-
-- Code: ***pa2.c*** (370 pts)
-	- SJF scheduler: 20pts (tested using `multi`)
-	- SRTF scheduler: 50pts (`multi`);
-	- RR scheduler:  50pts (`multi` and `prio`)
-	- Priority scheduler: 50pts (`prio`)
-	- Priority scheduler + PCP: 70pts (`resources-basic`)
-	- Priority scheduler + PIP: 130pts (`resources-adv1` and `resources-adv2`)
-
-- Document: One PDF document (30 pts) including;
-	- Description how **each** scheduling policy is implemented
-	  - No need to explain the code itself. Instead, try to explain your idea and approach.
-	- Lesson learned (if you have any)
-	- No more than three pages
-	- Otherwise you will get 0 pts for the report
-
-- Git repository (10 pts)
-	- Register http URL and with a deploy token and password.
-	- Start the repository by cloning this repository.
-	- Make sure the token is valid through May 29 (due + 4 slip days + 1 day)
-
-- *WILL NOT ANSWER THE QUESTIONS ABOUT THOSE ALREADY SPECIFIED ON THE HANDOUT.*
-- *QUESTIONS OVER EMAIL WILL BE IGNORED UNLESS IT CONCERNS YOUR PRIVACY.*
+- Code: ***pa2.c***
+	- SJF scheduler: tested using `multi`
+	- SRTF scheduler: `multi`
+	- RR scheduler: `multi` and `prio`
+	- Priority scheduler: `prio`
+	- Priority scheduler + PCP: `resources-basic`
+	- Priority scheduler + PIP: `resources-adv1` and `resources-adv2`
