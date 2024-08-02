@@ -217,8 +217,29 @@ static struct process *sjf_schedule(void)
 	/**
 	 * Implement your own SJF scheduler here.
 	 */
-	return NULL;
+	// declaring 2 pointers to struct, curr is used to iterate throughout the run queue 
+	and shortest is used to keep track of the task with the shortest expected execution time
+	//Initially assigned to NULL, meaning no task with the shortest expected execution time
+	struct process *curr, *shortest = NULL; 
+	//minimum execution time to keep track of the shortest expected execution time found so 
+	far during the iteration through the run queue
+    unsigned long min_exec_time = ULONG_MAX;
+	  // Find the task with the shortest expected execution time
+    list_for_each_entry(curr, &runqueue, run_list) {
+        if (curr->expected_exec_time < min_exec_time) {
+            min_exec_time = curr->expected_exec_time;
+            shortest = curr;
+        }
+    }
+
+    // If a task with the shortest expected execution time was found, return it
+    if (shortest)
+        return shortest;
+
+    // If no task with the shortest expected execution time was found, return NULL
+    return NULL;
 }
+	 
 
 struct scheduler sjf_scheduler = {
 	.name = "Shortest-Job First",
@@ -228,6 +249,7 @@ struct scheduler sjf_scheduler = {
 								to this function pointer to activate
 								SJF in the system */
 };
+ 
 
 
 /***********************************************************************
