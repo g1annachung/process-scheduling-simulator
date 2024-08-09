@@ -157,7 +157,7 @@ static struct process *fifo_schedule(void)
 	struct process *next = NULL;
 
 	/* You may inspect the situation by calling dump_status() at any time */
-	// dump_status();
+	 dump_status(); //done 
 
 	/**
 	 * When there was no process to run in the previous tick (so does
@@ -212,21 +212,29 @@ struct scheduler fifo_scheduler = {
 /***********************************************************************
  * SJF scheduler
  ***********************************************************************/
+
 static struct process *sjf_schedule(void)
 {
 	/**
 	 * Implement your own SJF scheduler here.
 	 */
-	// declaring 2 pointers to struct, curr is used to iterate throughout the run queue 
-	and shortest is used to keep track of the task with the shortest expected execution time
-	//Initially assigned to NULL, meaning no task with the shortest expected execution time
-	struct process *curr, *shortest = NULL; 
-	//minimum execution time to keep track of the shortest expected execution time found so 
-	far during the iteration through the run queue
-    unsigned long min_exec_time = ULONG_MAX;
-	  // Find the task with the shortest expected execution time
-    list_for_each_entry(curr, &runqueue, run_list) {
-        if (curr->expected_exec_time < min_exec_time) {
+	
+    // Declare a pointer to the current task in the run queue
+    struct process *curr;
+
+    // Declare a pointer to the task with the shortest expected execution time
+    struct process *shortest = NULL;
+
+    // Initialize the minimum expected execution time to the maximum possible value
+   unsigned long min_exec_time = ULONG_MAX; 
+
+    // Iterate through the run queue
+    list_for_each_entry(curr, &runqueue, run_list)
+    {
+        // If the current task's expected execution time is less than the current minimum
+        if (curr->expected_exec_time < min_exec_time)
+        {
+            // Update the minimum expected execution time and the pointer to the shortest task
             min_exec_time = curr->expected_exec_time;
             shortest = curr;
         }
@@ -238,16 +246,15 @@ static struct process *sjf_schedule(void)
 
     // If no task with the shortest expected execution time was found, return NULL
     return NULL;
-}
-	 
+} 
 
 struct scheduler sjf_scheduler = {
 	.name = "Shortest-Job First",
 	.acquire = fcfs_acquire, /* Use the default FCFS acquire() */
 	.release = fcfs_release, /* Use the default FCFS release() */
-	.schedule = NULL,		 /* TODO: Assign sjf_schedule()
-								to this function pointer to activate
-								SJF in the system */
+	.schedule = sjf_schedule, /* Assign the sjf_schedule() function */
+};	
+/* done TODO: Assign sjf_schedule() to this function pointer to activate SJF in the system */
 };
  
 
@@ -264,7 +271,34 @@ struct scheduler srtf_scheduler = {
 	/* Obviously, you should implement srtf_schedule() and attach it here */
 };
 
+static struct process *srtf_schedule(void)
+{
+    // Declare a pointer to the current task in the run queue
+    struct process *curr;
+    // Declare a pointer to the task with the shortest remaining execution time
+    struct process *shortest = NULL;
+    // Initialize the minimum remaining execution time to the maximum possible value
+    unsigned long min_remain_time = ULONG_MAX;
 
+    // Iterate through the run queue
+    list_for_each_entry(curr, &runqueue, run_list)
+    {
+        // If the current task's remaining execution time is less than the current minimum
+        if (curr->remaining_exec_time < min_remain_time)
+        {
+            // Update the minimum remaining execution time and the pointer to the shortest task
+            min_remain_time = curr->remaining_exec_time;
+            shortest = curr;
+        }
+    }
+
+   // If a task with the shortest expected execution time was found, return it
+    if (shortest)
+        return shortest;
+
+    // If no task with the shortest expected execution time was found, return NULL
+    return NULL;
+}
 /***********************************************************************
  * Round-robin scheduler
  ***********************************************************************/
@@ -275,7 +309,29 @@ struct scheduler rr_scheduler = {
 	/* Obviously, you should implement rr_schedule() and attach it here */
 };
 
+static struct process *rr_schedule(void)
+{
+  // Declare a pointer to the head of the run queue
+    struct process *head = list_first_entry(&runqueue, struct process, run_list);
+	
+    // Declare a pointer to the current task in the run queue
+    struct process *curr;
 
+    // If the run queue is empty, return NULL
+    if (list_empty(&runqueue))
+        return NULL;
+
+    // Move the head of the run queue to the end
+    list_del(&head->run_list);
+    list_add_tail(&head->run_list, &runqueue);
+
+    // Find the new head of the run queue
+    head = list_first_entry(&runqueue, struct process, run_list);
+
+    // Return the new head of the run queue
+    return head;
+	
+};
 /***********************************************************************
  * Priority scheduler
  ***********************************************************************/
@@ -288,18 +344,93 @@ struct scheduler prio_scheduler = {
 	/* Implement your own prio_schedule() and attach it here */
 };
 
+static struct process *prio_scheduler(void)
+{
+// Declare a pointer to the process with the highest priority
+    struct process *highest_prio = NULL;
+    // Declare a pointer to the current task in the run queue
+    struct process *curr;
+
+    // Iterate through the run queue
+    list_for_each_entry(curr, &runqueue, run_list)
+    {
+        // If the current task has a higher priority than the current highest priority task
+        if (!highest_prio || curr->priority < highest_prio->priority)
+        {
+            // Update the highest priority task pointer
+            highest_prio = curr;
+        }
+    }
+
+    // Return the task with the highest priority
+    return highest_prio;
+	
+};
 
 /***********************************************************************
  * Priority scheduler with priority ceiling protocol
  ***********************************************************************/
-struct scheduler pcp_scheduler = {
-	.name = "Priority + Priority Ceiling Protocol",
-	/**
+ struct scheduler pcp_scheduler = {
+    .name = "Priority + Priority Ceiling Protocol",
+    .acquire = pcp_acquire,
+    .release = pcp_release,
+    .schedule = pcp_schedule,
+/**
 	 * Implement your own acqure/release function too to make priority
 	 * scheduler correct.
 	 */
 };
 
+static struct process *pcp_schedule(void)
+{
+    // Declare a pointer to the process with the highest priority
+    struct process *highest_prio = NULL;
+    // Declare a pointer to the current task in the run queue
+    struct process *curr;
+
+    // Iterate through the run queue
+    list_for_each_entry(curr, &runqueue, run_list)
+    {
+        // If the current task has a higher priority than the current highest priority task
+        if (!highest_prio || curr->priority < highest_prio->priority)
+        {
+            // Update the highest priority task pointer
+            highest_prio = curr;
+        }
+    }
+
+    // Return the task with the highest priority
+    return highest_prio;
+}
+
+static int pcp_acquire(struct process *p)
+{
+    // Acquire the lock for the process
+    if (acquire_lock(p->lock) != 0)
+        return -1;
+
+    // Check if the current priority of the process is higher than the priority ceiling
+    if (p->priority < p->lock->ceiling)
+    {
+        // If so, update the priority of the process to the priority ceiling
+        p->priority = p->lock->ceiling;
+    }
+
+    // Return success
+    return 0;
+}
+
+static int pcp_release(struct process *p)
+{
+    // Release the lock for the process
+    release_lock(p->lock);
+
+    // Restore the original priority of the process
+    p->priority = p->orig_priority;
+
+    // Return success
+    return 0;
+}
 
 /***********************************************************************
  * Priority scheduler with priority inheritance protocol
